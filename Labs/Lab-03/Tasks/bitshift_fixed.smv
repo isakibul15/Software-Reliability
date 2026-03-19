@@ -1,0 +1,34 @@
+MODULE main 
+
+VAR 
+    Bit1 : boolean;
+    Bit2 : boolean;
+    state : { s1, s2, s3, s4 };
+
+IVAR
+    input : boolean;
+
+ASSIGN
+    init(state) := s1;
+    init(Bit1) := FALSE;
+    init(Bit2) := FALSE; 
+
+    next( state ) := case
+       state = s1 & input = TRUE : s2;
+       state = s2 & input = FALSE : s3;
+       state = s2 & input = TRUE : s4;
+       state = s3 & input = FALSE : s1;
+       state = s3 & input = TRUE : s2;
+       state = s4 & input = FALSE : s3;
+       TRUE : state;
+    esac;
+
+    next( Bit1 ) := input;
+
+    next( Bit2 ) := Bit1;
+
+LTLSPEC 
+   G ( Bit1 <-> (X Bit2) )
+
+LTLSPEC 
+G ( Bit1 <-> (X Bit1) )

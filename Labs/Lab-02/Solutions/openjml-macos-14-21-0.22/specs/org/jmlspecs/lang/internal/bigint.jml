@@ -1,0 +1,265 @@
+package org.jmlspecs.lang.internal;
+
+import org.jmlspecs.lang.IJmlPrimitiveType;
+
+//@ no_state non_null_by_default
+public class bigint extends Number implements org.jmlspecs.lang.IJmlPrimitiveType {
+    //@ spec_public
+    final private java.math.BigInteger value;
+
+    public static final bigint zero = 0;
+    public static final bigint one = 1;
+    
+    // @ static public final invariant zero == (\bigint)0;  // FIXME - do we need these invariants?
+    // @ static public final invariant one == (\bigint)1;
+    
+    //@ public normal_behavior   // FIXME - do we need this static initializer?
+    //@   ensures zero == (\bigint)0;
+    //@   ensures one == (\bigint)1;
+    //@ static_initializer
+    
+    //@ public normal_behavior
+    //@   ensures \result == zero;
+    public static bigint empty();
+
+    //@ public normal_behavior
+    //@   requires i != null;
+    //-RAC@   ensures \result == i.value && \result.value == i;
+    //@ helper spec_pure
+    public static bigint of(java.math.BigInteger i);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures (Long.MIN_VALUE <= \result <= Long.MAX_VALUE) && (\result == i & \result.longValue() == i);
+    //@ helper
+    public static bigint of(long i);
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures (Integer.MIN_VALUE <= \result <= Integer.MAX_VALUE) && (\result == i & \result.intValue() == i);
+    //@ helper
+    public static bigint of(int i);
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures (Short.MIN_VALUE <= \result <= Short.MAX_VALUE) && (\result == i & \result.shortValue() == i);
+    //@ helper
+    public static bigint of(short i);
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures (Character.MIN_VALUE <= \result <= Character.MAX_VALUE) && (\result == i & \result.charValue() == i);
+    //@ helper
+    public static bigint of(char i);
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures (Byte.MIN_VALUE <= \result <= Byte.MAX_VALUE) && (\result == i & \result.byteValue() == i);
+    //@ helper
+    public static bigint of(byte i);
+
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result == (-this);
+    //@ helper
+    public bigint negate();
+    
+    //@ public normal_behavior
+    //-RAC@ ensures \result == (this + v);
+    //@ helper
+    public bigint add(bigint v);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result == (this - v);
+    //@ helper
+    public bigint subtract(bigint v);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result == (this * v);
+    //@ helper
+    public bigint multiply(bigint v);
+    
+    //@ public normal_behavior
+    //@   requires v != zero;
+    //-RAC@ ensures \result == (this / v);
+    //@ helper
+    public bigint divide(bigint v);
+    
+    //@ public normal_behavior
+    //@   requires v != zero;
+    //-RAC@ ensures \result == (this % v);
+    //@ helper
+    public bigint mod(bigint v);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result == (this == v);
+    //@ helper
+    public boolean eq(bigint v);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result == (this != v);
+    //@ helper
+    public boolean ne(bigint v);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result == (this < v);
+    //@ helper
+    public boolean lt(bigint v);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result == (this <= v);
+    //@ helper
+    public boolean le(bigint v);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result == (this > v);
+    //@ helper
+    public boolean gt(bigint v);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result == (this >= v);
+    //@ helper
+    public boolean ge(bigint v);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result == (this & v);
+    //@ helper
+    public bigint and(bigint v);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result == (this | v);
+    //@ helper
+    public bigint or(bigint v);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result == (this ^ v);
+    //@ helper
+    public bigint xor(bigint v);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result.eq(this.negate().subtract(one));
+    //-RAC@ ensures \result == (~this);
+    //@ helper
+    public bigint comp();
+    
+    // A negative shift is a positive shift in the other direction, at least in RAC
+    //@ public normal_behavior
+    //@     requires true;
+    //-RAC@ { return (this << v); }
+    //@ helper pure
+    public bigint shiftLeft(bigint v);
+    
+    //@ public normal_behavior
+    //@     requires true;
+    //-RAC@ { return (this << v); }
+    //@ helper pure //+RAC@ final inline
+    //@ model public bigint shiftLeft(int v) { return this << v; }
+    
+    //@ public normal_behavior
+    //@     requires true;
+    //-RAC@ { return (this >> v); }
+    //@ helper
+    public bigint shiftRight(bigint v);
+    
+    //@ public normal_behavior
+    //@     requires true;
+    //-RAC@ { return (this >> v); }
+    //@ helper //+RAC@ final inline
+    //@ model public bigint shiftRight(int v) { return this >> v; } 
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //@ helper
+    public String toString();
+    
+    //@ public normal_behavior
+    //-RAC@   ensures \result == value;
+    //-RAC@   ensures \result.value == this;
+    //@ helper pure // not necessarily deterministic
+    public java.math.BigInteger bigValue();
+    
+    //@ public normal_behavior
+    //@   requires Long.MIN_VALUE <= this <= Long.MAX_VALUE;
+    //-RAC@ ensures \result == (long)this;
+    //@ helper
+    @Override
+    public long longValue();
+
+    //@ public normal_behavior
+    //@   requires Integer.MIN_VALUE <= this <= Integer.MAX_VALUE;
+    //-RAC@ ensures \result == (int)this;
+    //@ helper
+    @Override
+    public int intValue();
+
+    //@ public normal_behavior
+    //@   requires Short.MIN_VALUE <= this <= Short.MAX_VALUE;
+    //-RAC@ ensures \result == (short)this;
+    //@ helper
+    public short shortValue();
+
+    //@ public normal_behavior
+    //@   requires Byte.MIN_VALUE <= this <= Byte.MAX_VALUE;
+    //-RAC@ ensures \result == (byte)this;
+    //@ helper
+    public byte byteValue();
+
+    //@ public normal_behavior
+    //@   requires Character.MIN_VALUE <= this <= Character.MAX_VALUE;
+    //-RAC@ ensures \result == (char)this;
+    //@ helper
+    public char charValue();
+
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result == (\real)this;
+    //@ helper
+    public real realValue();
+
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result == (double)(\real)this;
+    //@ helper
+    public double doubleValue();
+
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \result == (float)(\real)this;
+    //@ helper
+    public float floatValue();
+        
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures this == o ==> \result == 0;
+    //-RAC@ ensures this != o ==> \result != 0;
+    //-RAC@ ensures this >= o ==> \result >= 0;
+    //-RAC@ ensures this <= o ==> \result <= 0;
+    //-RAC@ ensures this >  o ==> \result >  0;
+    //-RAC@ ensures this <  o ==> \result <  0;
+    //@ helper
+    public int compareTo(bigint o);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //@ helper
+    public int hashCode();
+    
+    // No 'also' and no Override because JML considers that JML primitive types do not inherit any specs
+    //@ requires false; // .equals may not be called -- use == instead
+    //@ helper
+    public boolean equals(/*@ nullable */ Object o);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures \result == this.eq(b);
+    public boolean equals(bigint b);
+
+}

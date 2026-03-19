@@ -1,0 +1,49 @@
+MODULE main
+
+-- EXERCISE
+-- This is an exercise in model-based test case generation.
+-- The idea is to write trap properties that achieve 100% NC 
+-- and 100% EC. Then we use NuSMV -bmc to generate test cases satisfying
+-- every test requirement. 
+
+-- ACTIVITIES
+-- 1. Execute this file as it is with the command NuSMV -bmc.
+-- 2. Observe and make sure you understand what you see.
+-- 3. Then edit the file to answer the 2 questions below.
+-- You should have a final total of 9 test requirements.
+-- 4. Execute this file again with the command NuSMV -bmc.
+-- 5. Extract and write down the generated test case for each 
+-- of your 9 test requirements.
+
+
+VAR
+-- system output
+	state : {stop, slow, fast};
+IVAR
+-- system inputs
+	accelerate: boolean;
+	brake: boolean;
+
+ASSIGN
+	init(state) := stop;
+	next(state) := case
+		      accelerate & !brake & state = stop : slow;
+		      accelerate & !brake & state = slow : fast;
+		      !accelerate & !brake & state = fast : slow;
+		      !accelerate & !brake & state = slow : stop;
+		      brake : stop;
+		      TRUE : state;
+	esac;
+
+-- 1 trap property for node coverage (which node?)
+LTLSPEC 
+	G( !(state = stop))
+
+-- Question 1. Write down the remaining 2 NC trap properties yourself
+
+-- 1 trap property for edge coverage (which edge?)
+LTLSPEC 
+	G( state=stop & accelerate -> X( !(state=slow) ) )
+
+-- Question 2. Write down the remaining 5 EC trap properties yourself
+

@@ -1,0 +1,124 @@
+package java.util;
+
+//@ non_null_by_default
+public class Random implements java.io.Serializable, java.util.random.RandomGenerator {
+  static final long serialVersionUID;
+  private final java.util.concurrent.atomic.AtomicLong seed;
+  private static final long multiplier;
+  private static final long addend;
+  private static final long mask;
+  private static final double DOUBLE_UNIT;
+  private static final double FLOAT_UNIT;
+  private static final java.util.concurrent.atomic.AtomicLong seedUniquifier;
+  private double nextNextGaussian;
+  private boolean haveNextNextGaussian;
+  private static final java.io.ObjectStreamField[] serialPersistentFields;
+  //private static final sun.misc.Unsafe unsafe; // Non-public api
+  private static final long seedOffset;
+  private static long seedUniquifier();
+  private void readObject(java.io.ObjectInputStream stream) throws java.io.IOException, java.lang.ClassNotFoundException;
+  private synchronized void writeObject(java.io.ObjectOutputStream stream) throws java.io.IOException;
+  private void resetSeed(long seed);
+  
+  //@ public normal_behavior
+  //@   ensures true;
+  //@ pure
+  public Random();
+
+  //@ public normal_behavior
+  //@   ensures true;
+  //@ pure
+  public Random(long seed);
+
+  private static long initialScramble(long seed);
+
+  //@ public normal_behavior
+  //@   assignable this.content;
+  public synchronized void setSeed(long seed);
+
+  //@ protected normal_behavior
+  //@   requires bits > 0;
+  //@   assignable this.content;
+  protected int next(int bits);
+
+  // inherited specs
+  @Override
+  public void nextBytes(byte[] bytes);
+  
+  // inherited specs
+  @Override
+  public int nextInt();
+  
+  // inherited specs
+  @Override
+  public int nextInt(int n);
+  
+  // inherited specs
+  @Override
+  public long nextLong();
+  
+  // inherited specs
+  @Override
+  public boolean nextBoolean();
+
+  // inherited specs
+  @Override
+  public float nextFloat();
+
+  // inherited specs
+  @Override
+  public double nextDouble();
+
+  // inherited specs
+  @Override
+  public synchronized double nextGaussian();
+
+  // inherited specs
+  @Override
+  public java.util.stream.IntStream ints(long n);
+
+  // inherited specs
+  @Override
+  public java.util.stream.IntStream ints();
+
+  // inherited specs
+  @Override
+  public java.util.stream.IntStream ints(long n, int i, int j);
+
+  // inherited specs
+  @Override
+  public java.util.stream.IntStream ints(int i, int j);
+
+  // inherited specs
+  @Override
+  public java.util.stream.LongStream longs(long n);
+
+  // inherited specs
+  @Override
+  public java.util.stream.LongStream longs();
+
+  // inherited specs
+  @Override
+  public java.util.stream.LongStream longs(long n, long nn, long nnn);
+
+  // inherited specs
+  @Override
+  public java.util.stream.LongStream longs(long n, long nn);
+
+  // inherited specs
+  @Override
+  public java.util.stream.DoubleStream doubles(long n);
+
+  // inherited specs
+  @Override
+  public java.util.stream.DoubleStream doubles();
+
+  // inherited specs
+  @Override
+  public java.util.stream.DoubleStream doubles(long n, double d, double dd);
+
+  // inherited specs
+  @Override
+  public java.util.stream.DoubleStream doubles(double d, double dd);
+
+}

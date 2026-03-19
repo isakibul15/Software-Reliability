@@ -1,0 +1,159 @@
+package org.jmlspecs.lang.internal;
+
+import org.jmlspecs.lang.IJmlPrimitiveType;
+import org.jmlspecs.lang.IJmlArrayLike;
+
+//@ immutable no_state non_null_by_default
+abstract public class set<T> implements IJmlPrimitiveType, IJmlArrayLike {
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures \result >= 0;
+    //@ helper
+    abstract public bigint size();
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC-ESC@   ensures \result == this[x];
+    //@ helper
+    abstract public boolean contains(T x);
+
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures \result == (this.size() == 0);
+    //-RAC@   ensures \result <==> (\forall T t;; !contains(t));
+    //@ helper
+    abstract public boolean isEmpty();
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures \result.size() == 0;
+    //-RAC@   ensures (\forall T x; ; !\result.contains(x));
+    //@ helper
+    static public <T> set<T> empty();
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@  ensures 0 <= \result.size() <= elements.length;
+    //-RAC@  ensures \forall int i; 0 <= i < elements.length; \result.contains(elements[i]);
+    //-RAC@  ensures \forall X t;; \result.contains(t) ==> (\exists int i; 0 <= i < elements.length; t == elements[i]);
+    //@ helper strictly_pure
+    @SuppressWarnings("unchecked")
+    static public <X> set<X> of(X ... elements);
+
+    // These alternate version of 'of' make for simpler reasoning about the method's effects,
+    // particularly relating to the resulting size of the set.
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures \result.size() == \bigint.one;
+    //-RAC@   ensures \result == \set.<X>empty().add(e);
+    //@ helper
+    static public <X> set<X> of(X e);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures \result.size() == (e == ee ? 1 : 2);
+    //-RAC@   ensures \result == \set.<X>empty().add(e).add(ee);
+    //@ helper
+    static public <X> set<X> of(X e, X ee);
+    
+    //@ public normal_behavior
+    //-RAC@   ensures \result.size() == (e == ee ? e == eee ? 1 : 2 : e == eee ? 2 : ee == eee ? 2 : 3);
+    //-RAC@   ensures \result == \set.<X>empty().add(e).add(ee).add(eee);
+    //@ helper
+    static public <X> set<X> of(X e, X ee, X eee);
+
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures \result == (\forall T t;; s.contains(t) == this.contains(t));
+    //@ helper
+    abstract public boolean eq(set<T> s);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures \result == !eq(s);
+    //@ helper
+    public boolean ne(set<T> s);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures \result == eq(s);
+    //@ helper
+    public boolean equals(set<T> s);
+    
+    //@ public normal_behavior
+    //@   requires false;
+    //@ helper
+    public boolean equals(Object o);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures \result == (\forall T t; this.contains(t) ; s.contains(t));
+    //@ helper
+    abstract public boolean isSubsetOf(set<T> s);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures \result == (!eq(s) && isSubsetOf(s));
+    //@ helper
+    abstract public boolean isProperSubsetOf(set<T> s);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures this.contains(x) ==> \result == this && \result.size() == this.size();
+    //-RAC@   ensures !this.contains(x) ==> \result.size() == this.size() + 1;
+    //-RAC@   ensures \result.contains(x);
+    //-RAC@   ensures (\forall T t; t != x; \result.contains(t) == this.contains(t));
+    //@ helper
+    abstract public set<T> add(T x);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures !this.contains(x) ==> \result == this;
+    //-RAC@   ensures this.contains(x) ==> \result.size() == this.size() - 1;
+    //-RAC@   ensures !\result.contains(x);
+    //-RAC@   ensures (\forall T t; t != x; \result.contains(t) == this.contains(t));
+    //@ helper
+    abstract public set<T> remove(T x);
+
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures \forall T j; this.contains(j);  p.test(j) ==> \result.contains(j);
+    //-RAC@   ensures \forall T j; \result.contains(j); (this.contains(j) && p.test(j)); // FIXME - purity of predicate
+    //@ pure helper
+    abstract public set<T> filter(java.util.function.Predicate<T> p);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures (\forall T t; this.contains(t); \result.contains(t));
+    //-RAC@   ensures (\forall T t; s.contains(t); \result.contains(t));
+    //-RAC@   ensures (\forall T t; \result.contains(t); this.contains(t) | s.contains(t));
+    //@ helper
+    abstract public set<T> union(set<T> s);
+
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures (\forall T t; this.contains(t); s.contains(t) ==> \result.contains(t));
+    //-RAC@   ensures (\forall T t; \result.contains(t); this.contains(t) & s.contains(t));
+    //@ helper
+    abstract public set<T> intersect(set<T> s);
+
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@   ensures (\forall T t; this.contains(t); !s.contains(t) ==> \result.contains(t));
+    //-RAC@   ensures (\forall T t; \result.contains(t); this.contains(t) & !s.contains(t));
+    //@ helper
+    abstract public set<T> subtract(set<T> s);
+    
+    //@ public normal_behavior
+    //@   requires true;
+    //-RAC@ ensures \forall \set<T> t; t == this; t.hashCode() == this.hashCode();
+    //@ helper
+    abstract public int hashCode();
+    
+    //@ public normal_behavior
+    //@  requires true;
+    //@ pure helper
+    abstract public String toString();
+}

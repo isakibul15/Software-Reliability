@@ -1,0 +1,16 @@
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/com/sun/jndi/dns/DNSDatagramChannelFactory.java
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/com/sun/jndi/dns/DnsClient.java
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/com/sun/jndi/dns/DnsContext.java
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/com/sun/jndi/dns/DnsContextFactory.java
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/com/sun/jndi/dns/DnsName.java
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/com/sun/jndi/dns/DnsNameParser.java
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/com/sun/jndi/dns/DnsUrl.java
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/com/sun/jndi/dns/Header.java
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/com/sun/jndi/dns/NameNode.java
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/com/sun/jndi/dns/Resolver.java
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/com/sun/jndi/dns/ResourceRecord.java
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/com/sun/jndi/dns/ResourceRecords.java
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/com/sun/jndi/dns/ZoneNode.java
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/com/sun/jndi/url/dns/dnsURLContext.java
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/com/sun/jndi/url/dns/dnsURLContextFactory.java
+/Users/runner/work/OpenJML/OpenJML/OpenJML/OpenJML21/src/jdk.naming.dns/share/classes/module-info.java

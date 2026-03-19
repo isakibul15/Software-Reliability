@@ -1,0 +1,45 @@
+MODULE main
+
+VAR
+	state : {stop, slow, fast};
+IVAR
+	accelerate: boolean;
+	brake: boolean;
+
+ASSIGN
+	init(state) := stop;
+	next(state) := case
+		      accelerate & !brake & state = stop : slow;
+		      accelerate & !brake & state = slow : fast;
+		      !accelerate & !brake & state = fast : slow;
+		      !accelerate & !brake & state = slow : stop;
+		      brake : stop;
+		      TRUE : state;
+	esac;
+
+-- NC Trap Property 1: reach stop
+LTLSPEC G( !(state = stop) )
+
+-- NC Trap Property 2: reach slow
+LTLSPEC G( !(state = slow) )
+
+-- NC Trap Property 3: reach fast
+LTLSPEC G( !(state = fast) )
+
+-- EC Trap Property 1: edge stop->slow
+LTLSPEC G( state=stop & accelerate -> X( !(state=slow) ) )
+
+-- EC Trap Property 2: edge slow->fast
+LTLSPEC G( state=slow & accelerate & !brake -> X( !(state=fast) ) )
+
+-- EC Trap Property 3: edge fast->slow
+LTLSPEC G( state=fast & !accelerate & !brake -> X( !(state=slow) ) )
+
+-- EC Trap Property 4: edge slow->stop (no accel)
+LTLSPEC G( state=slow & !accelerate & !brake -> X( !(state=stop) ) )
+
+-- EC Trap Property 5: edge slow->stop (brake)
+LTLSPEC G( state=slow & brake -> X( !(state=stop) ) )
+
+-- EC Trap Property 6: edge fast->stop (brake)
+LTLSPEC G( state=fast & brake -> X( !(state=stop) ) )

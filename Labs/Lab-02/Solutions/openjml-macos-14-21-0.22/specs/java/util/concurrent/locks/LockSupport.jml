@@ -1,0 +1,34 @@
+package java.util.concurrent.locks;
+
+//@ non_null_by_default
+public class LockSupport {
+//      private static final sun.misc.Unsafe UNSAFE;
+//      private static final long parkBlockerOffset;
+//      private static final long SEED;
+//      private static final long PROBE;
+//      private static final long SECONDARY;
+//      private java.util.concurrent.locks.LockSupport();
+//      private static void setBlocker(Thread t, Object object);
+
+      //@ public normal_behavior
+      //@   ensures true;
+      //@ pure
+      public static void unpark(@org.jmlspecs.annotation.NonNull Thread thread);
+
+      //@ public normal_behavior
+      //@   ensures true;
+      //@ pure
+      public static void park(Object object);  // FIXME - nullable?
+//      public static void parkNanos(Object, long);
+//      public static void parkUntil(Object, long);
+//      public static Object getBlocker(Thread t);
+      
+      //@ public normal_behavior
+      //@   ensures true;
+      //@ pure
+      public static void park();
+//      public static void parkNanos(long);
+//      public static void parkUntil(long);
+//      static final int nextSecondarySeed();
+//      static {};
+    }
