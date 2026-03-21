@@ -1,0 +1,7 @@
+SOURCE=""
+IMPLEMENTOR="N/A"
+JAVA_VERSION_DATE="2023-09-19"
+JAVA_RUNTIME_VERSION="21-internal-adhoc.runner.OpenJML21"
+OS_NAME="Darwin"
+OS_ARCH="aarch64"
+LIBC="default"
